@@ -36,7 +36,6 @@ int main() {
 
         window.display();
 
-        sleep(milliseconds(FPS / 10));
     }
 
     return 0;
