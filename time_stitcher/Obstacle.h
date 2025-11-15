@@ -64,7 +64,7 @@ public:
 
 	// Non-blocking: start brief "touched" visual state
 	void touched() {
-		// allow retrigger by resetting timer
+		if (m_didTouch) return;
 		m_touchRemaining = 0.1f; // 100 ms
 		m_didTouch = true;
 		if (m_sprite) {
@@ -81,8 +81,9 @@ public:
 		m_touchRemaining -= dt;
 		if (m_touchRemaining <= 0.f) {
 			// restore colors
+			printf("Obstacle: touch effect ended\n");
 			if (m_sprite) {
-				m_sprite->setColor(Color::White); // white leaves texture unchanged
+				m_sprite->setColor(Color::Red); // white leaves texture unchanged
 			}
 			else {
 				m_shape.setFillColor(m_fillColor);
