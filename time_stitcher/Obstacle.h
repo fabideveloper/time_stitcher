@@ -20,7 +20,7 @@ public:
 	float m_touchRemaining = 0.f;
 
 	Obstacle(const Vector2f& position, const std::string& texturePath = "NULL") {
-		if (!m_texture.emplace().loadFromFile(texturePath)) {
+		if (not m_texture.emplace().loadFromFile(texturePath)) {
 			m_shape.setPosition(position);
 			m_shape.setSize({ 32.f, 32.f });
 			m_fillColor = Color::Red;
@@ -37,7 +37,7 @@ public:
 
 	bool setTextureFromFile(const std::string& texturePath) {
 		m_texture.emplace();
-		if (!m_texture->loadFromFile(texturePath)) {
+		if (not m_texture->loadFromFile(texturePath)) {
 			m_texture.reset();
 			return false;
 		}
@@ -96,17 +96,17 @@ public:
 	void setCollideable(bool collidable) {
 		m_collidable = collidable;
 		if (collidable) {
-			if (!m_sprite) m_shape.setFillColor(Color::Red);
+			if (not m_sprite) m_shape.setFillColor(Color::Red);
 			else m_sprite->setColor(Color::White);
 		}
 		else {
-			if (!m_sprite) m_shape.setFillColor(Color(100, 100, 100));
+			if (not m_sprite) m_shape.setFillColor(Color(100, 100, 100));
 			else m_sprite->setColor(Color(150, 150, 150));
 		}
 	}
 
 	bool intersects(const FloatRect& other) const {
-		if (!m_collidable) return false;
+		if (not m_collidable) return false;
 		return getBounds().findIntersection(other) != std::nullopt;
 	}
 };

@@ -13,7 +13,7 @@ Game::Game(unsigned width, unsigned height)
     : window(CreateVideoMode(width, height), "Time Stitcher"),
     player("assets/images/player.png", { width / 2.f, height / 2.f }, 400.f)
 {
-    if (!backgroundTexture.loadFromFile("assets/images/background.jpg")) {
+    if (not backgroundTexture.loadFromFile("assets/images/background.jpg")) {
         std::cerr << "Failed to load background\n";
     }
     else {
@@ -27,19 +27,41 @@ Game::Game(unsigned width, unsigned height)
             );
         }
     }
+
+    /*player.setDirectionalTextures({
+       { Player::Direction::Idle,      "assets/images/player_idle.png" },
+       { Player::Direction::Left,      "assets/images/player_left.png" },
+       { Player::Direction::Right,     "assets/images/player_right.png" },
+       { Player::Direction::Up,        "assets/images/player_up.png" },
+       { Player::Direction::Down,      "assets/images/player_down.png" },
+       { Player::Direction::UpLeft,    "assets/images/player_up_left.png" },
+       { Player::Direction::UpRight,   "assets/images/player_up_right.png" },
+       { Player::Direction::DownLeft,  "assets/images/player_down_left.png" },
+       { Player::Direction::DownRight, "assets/images/player_down_right.png" }
+        });*/
+
+        // load animations from folder structure "assets/player_sprites/<direction>/*"
+    if (!player.loadDirectionalSpritesFromFolder("assets/images/player_sprites", 0.1f)) {
+        std::cerr << "Warning: no directional sprite folders found, falling back to single textures\n";
+    }
+    // optional: animate idle frames too
+    player.setAnimateIdle(true);
 }
 
 void Game::createMaze(sf::Vector2f startPos, sf::Vector2f endPos) {
     // obstacles.emplace_back(sf::Vector2f(200, 200));
     obstacles.clear();
+
 }
 
 void Game::run() {
+    this->createMaze({ 0.f,0.f }, { 0.f,0.f });
     while (window.isOpen()) {
         processEvents();
         render();
         update(clock.restart().asSeconds());
     }
+    
 }
 
 void Game::processEvents() {
