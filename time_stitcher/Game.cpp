@@ -11,7 +11,7 @@ sf::VideoMode CreateVideoMode(unsigned width, unsigned height) {
 
 Game::Game(unsigned width, unsigned height)
     : window(CreateVideoMode(width, height), "Time Stitcher"),
-    player("assets/images/player.png", { width / 2.f, height / 2.f }, 400.f)
+    player("assets/images/player_sprites/player.png", { width / 2.f, height / 2.f }, 400.f)
 {
     if (not backgroundTexture.loadFromFile("assets/images/background.jpg")) {
         std::cerr << "Failed to load background\n";

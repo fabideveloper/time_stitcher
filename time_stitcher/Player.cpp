@@ -20,6 +20,17 @@ Player::Player(const std::string& texturePath, const Vector2f& startPos, float s
     // construct the sprite only after the texture was successfully loaded
     m_sprite.emplace(m_texture);
 
+    const float desiredPixelSize = 64.f;
+	FloatRect localBounds = m_sprite->getLocalBounds();
+    if(localBounds.size.x > 0 and localBounds.size.y > 0) {
+        float scaleX = desiredPixelSize / localBounds.size.x;
+        float scaleY = desiredPixelSize / localBounds.size.y;
+
+		float uniform = std::min(scaleX, scaleY);
+        m_sprite->setScale({ uniform, uniform });
+	}
+
+
     // center origin so rotation/positioning are intuitive
     FloatRect bounds = m_sprite->getLocalBounds();
     m_sprite->setOrigin({ bounds.size.x * 0.5f, bounds.size.y * 0.5f });
