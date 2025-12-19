@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <iostream>
 
+// Test
 // Helper to create SFML VideoMode
 sf::VideoMode CreateVideoMode(unsigned width, unsigned height) {
     sf::VideoMode mode;
